@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Desafío SANO: Emparejamiento de Prevención</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0fdfc;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c7a7b;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 30px;
+    }
+
+    .column {
+      width: 40%;
+    }
+
+    .column h2 {
+      color: #2c7a7b;
+      margin-bottom: 10px;
+    }
+
+    .item {
+      background-color: #e6fff9;
+      border: 1px solid #2c7a7b;
+      padding: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .item.selected {
+      background-color: #c8f7c5;
+    }
+
+    .item.incorrect {
+      background-color: #f7c5c5;
+    }
+
+    .match {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #2c7a7b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #2c7a7b;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Desafío SANO: Emparejamiento de Prevención</h1>
+
+  <div class="container">
+    <div class="column">
+      <h2>Preguntas</h2>
+      <div class="item" data-id="1">1. Droga legal cuyo humo afecta a los pulmones y puede causar cáncer.</div>
+      <div class="item" data-id="2">2. Sistema que protege al cuerpo y se debilita con el alcohol.</div>
+      <div class="item" data-id="3">3. Consumo de sustancias que alteran el estado de ánimo.</div>
+      <div class="item" data-id="4">4. Órgano afectado por el alcohol.</div>
+      <div class="item" data-id="5">5. Sustancia que deteriora la capacidad de reacción.</div>
+      <div class="item" data-id="6">6. Enfermedad hepática grave.</div>
+      <div class="item" data-id="7">7. Estado de dependencia física o psicológica.</div>
+      <div class="item" data-id="8">8. Ayuda profesional para superar una adicción.</div>
+      <div class="item" data-id="9">9. Influencia de amigos para consumir sustancias.</div>
+      <div class="item" data-id="10">10. Capacidad de decir “NO” ante una situación de riesgo.</div>
+    </div>
+
+    <div class="column">
+      <h2>Respuestas</h2>
+      <div class="item" data-answer="1">TABACO</div>
+      <div class="item" data-answer="2">INMUNE</div>
+      <div class="item" data-answer="3">ADICCIÓN</div>
+      <div class="item" data-answer="4">HÍGADO</div>
+      <div class="item" data-answer="5">DROGA</div>
+      <div class="item" data-answer="6">CIRROSIS</div>
+      <div class="item" data-answer="7">DEPENDENCIA</div>
+      <div class="item" data-answer="8">TERAPIA</div>
+      <div class="item" data-answer="9">PRESIÓN</div>
+      <div class="item" data-answer="10">ASERTIVIDAD</div>
+    </div>
+  </div>
+
+  <button onclick="checkMatches()">Verificar respuestas</button>
+
+  <div class="match" id="result"></div>
+
+  <footer>
+    Programación realizada por: DIANA KATHERINE GOMEZ DURAN
+  </footer>
+
+  <script>
+    let selectedQuestion = null;
+    let selectedAnswer = null;
+    const correctMatches = {
+      1: "TABACO",
+      2: "INMUNE",
+      3: "ADICCIÓN",
+      4: "HÍGADO",
+      5: "DROGA",
+      6: "CIRROSIS",
+      7: "DEPENDENCIA",
+      8: "TERAPIA",
+      9: "PRESIÓN",
+      10: "ASERTIVIDAD"
+    };
+
+    document.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('click', () => {
+        const isQuestion = item.hasAttribute('data-id');
+        const isAnswer = item.hasAttribute('data-answer');
+
+        if (isQuestion) {
+          selectedQuestion = item;
+          document.querySelectorAll('.item[data-id]').forEach(q => q.classList.remove('selected'));
+          item.classList.add('selected');
+        }
+
+        if (isAnswer && selectedQuestion) {
+          selectedAnswer = item;
+          const qId = selectedQuestion.getAttribute('data-id');
+          const aText = selectedAnswer.textContent.trim();
+
+          if (correctMatches[qId] === aText) {
+            selectedQuestion.classList.add('selected');
+            selectedAnswer.classList.add('selected');
+            selectedQuestion.classList.remove('incorrect');
+            selectedAnswer.classList.remove('incorrect');
+          } else {
+            selectedQuestion.classList.add('incorrect');
+            selectedAnswer.classList.add('incorrect');
+          }
+
+          selectedQuestion = null;
+          selectedAnswer = null;
+        }
+      });
+    });
+
+    function checkMatches() {
+      const correct = document.querySelectorAll('.item.selected').length / 2;
+      document.getElementById('result').textContent = `¡Has emparejado correctamente ${correct} de 10!`;
+    }
+  </script>
+
+</body>
+</html>
